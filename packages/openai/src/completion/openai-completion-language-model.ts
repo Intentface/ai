@@ -20,6 +20,7 @@ import {
   type FetchFunction,
   type ParseResult,
 } from '@ai-sdk/provider-utils';
+import { rehydrateOpenAIConfig } from '../openai-config';
 import { openaiFailedResponseHandler } from '../openai-error';
 import {
   convertOpenAICompletionUsage,
@@ -39,6 +40,7 @@ import {
 } from './openai-completion-language-model-options';
 type OpenAICompletionConfig = {
   provider: string;
+  baseURL?: string;
   headers?: () => Record<string, string | undefined>;
   url: (options: { modelId: string; path: string }) => string;
   fetch?: FetchFunction;
@@ -66,7 +68,10 @@ export class OpenAICompletionLanguageModel implements LanguageModelV4 {
     modelId: OpenAICompletionModelId;
     config: OpenAICompletionConfig;
   }) {
-    return new OpenAICompletionLanguageModel(options.modelId, options.config);
+    return new OpenAICompletionLanguageModel(
+      options.modelId,
+      rehydrateOpenAIConfig(options.config),
+    );
   }
 
   constructor(

@@ -2,6 +2,7 @@ import type { FetchFunction } from '@ai-sdk/provider-utils';
 
 export type OpenAIConfig = {
   provider: string;
+  baseURL?: string;
   url: (options: { modelId: string; path: string }) => string;
   headers?: () => Record<string, string | undefined>;
   fetch?: FetchFunction;
@@ -16,3 +17,18 @@ export type OpenAIConfig = {
    */
   fileIdPrefixes?: readonly string[];
 };
+
+export function rehydrateOpenAIConfig<
+  T extends {
+    baseURL?: string;
+    url: (options: { modelId: string; path: string }) => string;
+  },
+>(config: T): T {
+  if (typeof config.url === 'function') return config;
+  const baseURL = config.baseURL ?? 'https://api.openai.com/v1';
+  return {
+    ...config,
+    baseURL,
+    url: ({ path }) => `${baseURL}${path}`,
+  };
+}

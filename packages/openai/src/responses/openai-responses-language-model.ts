@@ -29,7 +29,7 @@ import {
   type InferSchema,
   type ParseResult,
 } from '@ai-sdk/provider-utils';
-import type { OpenAIConfig } from '../openai-config';
+import { rehydrateOpenAIConfig, type OpenAIConfig } from '../openai-config';
 import { openaiFailedResponseHandler } from '../openai-error';
 import { getOpenAILanguageModelCapabilities } from '../openai-language-model-capabilities';
 import type { applyPatchInputSchema } from '../tool/apply-patch';
@@ -121,7 +121,10 @@ export class OpenAIResponsesLanguageModel implements LanguageModelV4 {
     modelId: OpenAIResponsesModelId;
     config: OpenAIConfig;
   }) {
-    return new OpenAIResponsesLanguageModel(options.modelId, options.config);
+    return new OpenAIResponsesLanguageModel(
+      options.modelId,
+      rehydrateOpenAIConfig(options.config),
+    );
   }
 
   constructor(modelId: OpenAIResponsesModelId, config: OpenAIConfig) {

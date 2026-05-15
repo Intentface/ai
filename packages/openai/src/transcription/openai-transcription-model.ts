@@ -14,7 +14,7 @@ import {
   WORKFLOW_DESERIALIZE,
   WORKFLOW_SERIALIZE,
 } from '@ai-sdk/provider-utils';
-import type { OpenAIConfig } from '../openai-config';
+import { rehydrateOpenAIConfig, type OpenAIConfig } from '../openai-config';
 import { openaiFailedResponseHandler } from '../openai-error';
 import { openaiTranscriptionResponseSchema } from './openai-transcription-api';
 import {
@@ -112,7 +112,10 @@ export class OpenAITranscriptionModel implements TranscriptionModelV4 {
     modelId: OpenAITranscriptionModelId;
     config: OpenAITranscriptionModelConfig;
   }) {
-    return new OpenAITranscriptionModel(options.modelId, options.config);
+    return new OpenAITranscriptionModel(
+      options.modelId,
+      rehydrateOpenAIConfig(options.config),
+    );
   }
 
   get provider(): string {

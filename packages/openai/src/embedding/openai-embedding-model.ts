@@ -11,7 +11,7 @@ import {
   WORKFLOW_DESERIALIZE,
   WORKFLOW_SERIALIZE,
 } from '@ai-sdk/provider-utils';
-import type { OpenAIConfig } from '../openai-config';
+import { rehydrateOpenAIConfig, type OpenAIConfig } from '../openai-config';
 import { openaiFailedResponseHandler } from '../openai-error';
 import {
   openaiEmbeddingModelOptions,
@@ -38,7 +38,10 @@ export class OpenAIEmbeddingModel implements EmbeddingModelV4 {
     modelId: OpenAIEmbeddingModelId;
     config: OpenAIConfig;
   }) {
-    return new OpenAIEmbeddingModel(options.modelId, options.config);
+    return new OpenAIEmbeddingModel(
+      options.modelId,
+      rehydrateOpenAIConfig(options.config),
+    );
   }
 
   get provider(): string {

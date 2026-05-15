@@ -185,6 +185,7 @@ export function createOpenAI(
   const createChatModel = (modelId: OpenAIChatModelId) =>
     new OpenAIChatLanguageModel(modelId, {
       provider: `${providerName}.chat`,
+      baseURL,
       url: ({ path }) => `${baseURL}${path}`,
       headers: getHeaders,
       fetch: options.fetch,
@@ -193,6 +194,7 @@ export function createOpenAI(
   const createCompletionModel = (modelId: OpenAICompletionModelId) =>
     new OpenAICompletionLanguageModel(modelId, {
       provider: `${providerName}.completion`,
+      baseURL,
       url: ({ path }) => `${baseURL}${path}`,
       headers: getHeaders,
       fetch: options.fetch,
@@ -201,6 +203,7 @@ export function createOpenAI(
   const createEmbeddingModel = (modelId: OpenAIEmbeddingModelId) =>
     new OpenAIEmbeddingModel(modelId, {
       provider: `${providerName}.embedding`,
+      baseURL,
       url: ({ path }) => `${baseURL}${path}`,
       headers: getHeaders,
       fetch: options.fetch,
@@ -209,6 +212,7 @@ export function createOpenAI(
   const createImageModel = (modelId: OpenAIImageModelId) =>
     new OpenAIImageModel(modelId, {
       provider: `${providerName}.image`,
+      baseURL,
       url: ({ path }) => `${baseURL}${path}`,
       headers: getHeaders,
       fetch: options.fetch,
@@ -217,6 +221,7 @@ export function createOpenAI(
   const createTranscriptionModel = (modelId: OpenAITranscriptionModelId) =>
     new OpenAITranscriptionModel(modelId, {
       provider: `${providerName}.transcription`,
+      baseURL,
       url: ({ path }) => `${baseURL}${path}`,
       headers: getHeaders,
       fetch: options.fetch,
@@ -225,6 +230,7 @@ export function createOpenAI(
   const createSpeechModel = (modelId: OpenAISpeechModelId) =>
     new OpenAISpeechModel(modelId, {
       provider: `${providerName}.speech`,
+      baseURL,
       url: ({ path }) => `${baseURL}${path}`,
       headers: getHeaders,
       fetch: options.fetch,
@@ -259,6 +265,7 @@ export function createOpenAI(
   const createResponsesModel = (modelId: OpenAIResponsesModelId) => {
     return new OpenAIResponsesLanguageModel(modelId, {
       provider: `${providerName}.responses`,
+      baseURL,
       url: ({ path }) => `${baseURL}${path}`,
       headers: getHeaders,
       fetch: options.fetch,

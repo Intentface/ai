@@ -24,6 +24,7 @@ import {
   type FetchFunction,
   type ParseResult,
 } from '@ai-sdk/provider-utils';
+import { rehydrateOpenAIConfig } from '../openai-config';
 import { openaiFailedResponseHandler } from '../openai-error';
 import { getOpenAILanguageModelCapabilities } from '../openai-language-model-capabilities';
 import {
@@ -46,6 +47,7 @@ import { prepareChatTools } from './openai-chat-prepare-tools';
 
 type OpenAIChatConfig = {
   provider: string;
+  baseURL?: string;
   headers?: () => Record<string, string | undefined>;
   url: (options: { modelId: string; path: string }) => string;
   fetch?: FetchFunction;
@@ -73,7 +75,10 @@ export class OpenAIChatLanguageModel implements LanguageModelV4 {
     modelId: OpenAIChatModelId;
     config: OpenAIChatConfig;
   }) {
-    return new OpenAIChatLanguageModel(options.modelId, options.config);
+    return new OpenAIChatLanguageModel(
+      options.modelId,
+      rehydrateOpenAIConfig(options.config),
+    );
   }
 
   constructor(modelId: OpenAIChatModelId, config: OpenAIChatConfig) {

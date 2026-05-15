@@ -8,7 +8,7 @@ import {
   WORKFLOW_DESERIALIZE,
   WORKFLOW_SERIALIZE,
 } from '@ai-sdk/provider-utils';
-import type { OpenAIConfig } from '../openai-config';
+import { rehydrateOpenAIConfig, type OpenAIConfig } from '../openai-config';
 import { openaiFailedResponseHandler } from '../openai-error';
 import type { OpenAISpeechAPITypes } from './openai-speech-api';
 import {
@@ -35,7 +35,10 @@ export class OpenAISpeechModel implements SpeechModelV4 {
     modelId: OpenAISpeechModelId;
     config: OpenAISpeechModelConfig;
   }) {
-    return new OpenAISpeechModel(options.modelId, options.config);
+    return new OpenAISpeechModel(
+      options.modelId,
+      rehydrateOpenAIConfig(options.config),
+    );
   }
 
   get provider(): string {

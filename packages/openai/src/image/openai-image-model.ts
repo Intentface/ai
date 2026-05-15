@@ -16,7 +16,7 @@ import {
   WORKFLOW_DESERIALIZE,
   WORKFLOW_SERIALIZE,
 } from '@ai-sdk/provider-utils';
-import type { OpenAIConfig } from '../openai-config';
+import { rehydrateOpenAIConfig, type OpenAIConfig } from '../openai-config';
 import { openaiFailedResponseHandler } from '../openai-error';
 import { openaiImageResponseSchema } from './openai-image-api';
 import {
@@ -47,7 +47,10 @@ export class OpenAIImageModel implements ImageModelV4 {
     modelId: OpenAIImageModelId;
     config: OpenAIImageModelConfig;
   }) {
-    return new OpenAIImageModel(options.modelId, options.config);
+    return new OpenAIImageModel(
+      options.modelId,
+      rehydrateOpenAIConfig(options.config),
+    );
   }
 
   get maxImagesPerCall(): number {
